@@ -2,14 +2,10 @@ package com.maciek;
 
 import java.util.*;
 
-public class BackTrackRun {
-
-    private final int n;
-    private final List<List<Integer>> solutions;
+public class BackTrackRun extends CSPAlgorithmRun {
 
     public BackTrackRun(int n) {
-        this.n = n;
-        this.solutions = new ArrayList<>();
+       super(n);
     }
 
     public int run() {
@@ -18,7 +14,7 @@ public class BackTrackRun {
     }
 
     private void backTrack(List<Integer> chosenRows) {
-        QueenUtil.logProgress(n, chosenRows);
+        logProgress(chosenRows);
 
         if (isValidSubSolution(chosenRows)) {
             if (isFullSolution(chosenRows)) {
@@ -57,17 +53,9 @@ public class BackTrackRun {
     }
 
     private List<Integer> getFreeRows(List<Integer> chosenRows) {
-        List<Integer> result = QueenUtil.getAllAvailableRows(n);
+        List<Integer> result = getAllAvailableRows();
         result.removeAll(chosenRows);
         return result;
-    }
-
-    private void saveSolution(List<Integer> chosenRows) {
-        solutions.add(chosenRows);
-    }
-
-    private boolean isFullSolution(List<Integer> chosenRows) {
-        return chosenRows.size() == n;
     }
 
 }
