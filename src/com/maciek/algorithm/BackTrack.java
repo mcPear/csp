@@ -45,6 +45,5 @@ public abstract class BackTrack extends CSPAlgorithm {
 //        });
 //    }
 
-    protected abstract List<Integer> getNextSolution(List<Integer> previousSolution, Integer nextValue);
 
 }

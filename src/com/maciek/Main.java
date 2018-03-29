@@ -1,13 +1,15 @@
 package com.maciek;
 
 import com.maciek.latin.LatinBackTrack;
+import com.maciek.latin.LatinForwardCheck;
 import com.maciek.queen.QueenBackTrack;
 import com.maciek.queen.QueenForwardCheck;
 
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println(new LatinBackTrack(6).run());
+        //System.out.println(new LatinBackTrack(6).run());
+        System.out.println(new LatinForwardCheck(5).run());
         //compareTimes(13);
     }
 

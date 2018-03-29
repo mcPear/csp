@@ -17,7 +17,7 @@ public abstract class ForwardCheck extends CSPAlgorithm {
     protected abstract List<List<Integer>> getUpdatedDomains(List<Integer> subSolution, List<List<Integer>> domains);
 
     private void forwardCheck(List<Integer> subSolution, List<List<Integer>> domains) {
-        //logProgress(subSolution);
+        logProgress(subSolution);
 
         if (isFullSolution(subSolution)) {
             saveSolution(subSolution);
@@ -39,9 +39,8 @@ public abstract class ForwardCheck extends CSPAlgorithm {
     private void triggerForwardCheckForNextDomainValues(List<Integer> subSolution, List<List<Integer>> updatedDomains) {
         List<Integer> domainValues = updatedDomains.get(0);
         domainValues.forEach(domainValue -> {
-            List<Integer> nextSubSolution = new ArrayList<>(subSolution);
-            nextSubSolution.add(domainValue);
-            forwardCheck(nextSubSolution, updatedDomains);
+            List<Integer> nextSolution = getNextSolution(subSolution, domainValue);
+            forwardCheck(nextSolution, updatedDomains);
         });
     }
 
@@ -49,12 +48,6 @@ public abstract class ForwardCheck extends CSPAlgorithm {
         return domains.stream().anyMatch(List::isEmpty);
     }
 
-    private List<List<Integer>> getAllFullDomains() {
-        List<List<Integer>> domains = new ArrayList<>();
-        for (int i = 1; i <= n; i++) {
-            domains.add(allKnownValues);
-        }
-        return domains;
-    }
+    protected abstract List<List<Integer>> getAllFullDomains();
 
 }

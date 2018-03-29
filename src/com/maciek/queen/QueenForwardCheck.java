@@ -2,6 +2,7 @@ package com.maciek.queen;
 
 import com.maciek.algorithm.ForwardCheck;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,6 +37,22 @@ public class QueenForwardCheck extends ForwardCheck {
     @Override
     protected boolean isFullSolution(List<Integer> chosenRows) {
         return chosenRows.size() == n;
+    }
+
+    @Override
+    protected List<Integer> getNextSolution(List<Integer> previousSolution, Integer nextValue) {
+        List<Integer> nextSolution = new ArrayList<>(previousSolution);
+        nextSolution.add(nextValue);
+        return nextSolution;
+    }
+
+    @Override
+    protected List<List<Integer>> getAllFullDomains() {
+        List<List<Integer>> domains = new ArrayList<>();
+        for (int i = 1; i <= n; i++) {
+            domains.add(allKnownValues);
+        }
+        return domains;
     }
 
 }

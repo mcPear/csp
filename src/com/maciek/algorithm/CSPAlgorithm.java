@@ -36,4 +36,6 @@ public abstract class CSPAlgorithm {
 
     protected abstract List<Integer> getInitialSolution();
 
+    protected abstract List<Integer> getNextSolution(List<Integer> previousSolution, Integer nextValue);
+
 }
