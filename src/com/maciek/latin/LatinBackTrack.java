@@ -1,6 +1,7 @@
 package com.maciek.latin;
 
 import com.maciek.algorithm.BackTrack;
+import com.maciek.algorithm.Options;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,9 +10,9 @@ import java.util.List;
 
 public class LatinBackTrack extends BackTrack {
 
-    public LatinBackTrack(int n) {
-        super(n);
-    } //max n=5
+    public LatinBackTrack(int n, Options options) {// n max=5
+        super(n, options);
+    }
 
     @Override
     protected boolean isValidSubSolution(List<Integer> subSolution) {

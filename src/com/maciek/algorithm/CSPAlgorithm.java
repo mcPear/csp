@@ -9,14 +9,20 @@ public abstract class CSPAlgorithm {
     protected final int n;
     protected final List<List<Integer>> foundSolutions;
     protected final List<Integer> allKnownValues;
+    protected final Options options;
+    protected Integer recursiveCallsCount = 0;
+    protected Integer returnsCount = 0;
+    protected Long executionTimeMillis = 0L;
 
-    protected CSPAlgorithm(int n) {
+
+    protected CSPAlgorithm(int n, Options options) {
         this.n = n;
         this.foundSolutions = new ArrayList<>();
         this.allKnownValues = new ArrayList<>();
         for (int i = 1; i <= n; i++) {
             allKnownValues.add(i);
         }
+        this.options = options;
     }
 
     public void logProgress(List<Integer> chosenRows) {
@@ -37,5 +43,9 @@ public abstract class CSPAlgorithm {
     protected abstract List<Integer> getInitialSolution();
 
     protected abstract List<Integer> getNextSolution(List<Integer> previousSolution, Integer nextValue);
+
+    protected Result getResult(){
+        return new Result(n, foundSolutions, foundSolutions.size(), recursiveCallsCount, returnsCount, executionTimeMillis, this.getClass().getSimpleName());
+    }
 
 }

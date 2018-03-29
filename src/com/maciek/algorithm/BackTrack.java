@@ -4,19 +4,29 @@ import java.util.List;
 
 public abstract class BackTrack extends CSPAlgorithm {
 
-    public BackTrack(int n) {
-        super(n);
+    public BackTrack(int n, Options options) {
+        super(n, options);
     }
 
     protected abstract boolean isValidSubSolution(List<Integer> subSolution);
 
-    public int run() {
+    public Result run() {
+        long start = System.currentTimeMillis();
         backTrack(getInitialSolution());
-        return foundSolutions.size();
+        if (options.countExecutionTime) {
+            executionTimeMillis = System.currentTimeMillis() - start;
+        }
+        return getResult();
     }
 
     private void backTrack(List<Integer> subSolution) {
-        logProgress(subSolution);
+        if (options.logProgress) {
+            logProgress(subSolution);
+        }
+        if (options.countRecursiveCalls) recursiveCallsCount++;
+        if (options.stopAtFirstSolution && !foundSolutions.isEmpty()) {
+            return;
+        }
 
         if (isValidSubSolution(subSolution)) {
             if (isFullSolution(subSolution)) {
@@ -24,6 +34,8 @@ public abstract class BackTrack extends CSPAlgorithm {
             } else {
                 triggerBackTracksForAllValues(subSolution);
             }
+        } else if (options.countReturns) {
+            returnsCount++;
         }
 
     }

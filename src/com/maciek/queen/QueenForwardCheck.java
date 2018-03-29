@@ -1,6 +1,7 @@
 package com.maciek.queen;
 
 import com.maciek.algorithm.ForwardCheck;
+import com.maciek.algorithm.Options;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -8,8 +9,8 @@ import java.util.List;
 
 public class QueenForwardCheck extends ForwardCheck {
 
-    public QueenForwardCheck(int n) {
-        super(n);
+    public QueenForwardCheck(int n, Options options) {
+        super(n, options);
     }
 
     @Override
@@ -30,7 +31,7 @@ public class QueenForwardCheck extends ForwardCheck {
     }
 
     @Override
-    protected List<Integer> getInitialSolution(){
+    protected List<Integer> getInitialSolution() {
         return Collections.emptyList();
     }
 

@@ -1,13 +1,14 @@
 package com.maciek.queen;
 
 import com.maciek.algorithm.BackTrack;
+import com.maciek.algorithm.Options;
 
 import java.util.*;
 
 public class QueenBackTrack extends BackTrack {
 
-    public QueenBackTrack(int n) {
-        super(n);
+    public QueenBackTrack(int n, Options options) {
+        super(n, options);
     }
 
     @Override

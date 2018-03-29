@@ -1,6 +1,7 @@
 package com.maciek.latin;
 
 import com.maciek.algorithm.ForwardCheck;
+import com.maciek.algorithm.Options;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,8 +10,8 @@ import java.util.List;
 
 public class LatinForwardCheck extends ForwardCheck {
 
-    public LatinForwardCheck(int n) {
-        super(n);
+    public LatinForwardCheck(int n, Options options) {
+        super(n, options);
     }
 
     @Override

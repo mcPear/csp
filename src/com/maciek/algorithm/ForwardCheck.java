@@ -5,19 +5,29 @@ import java.util.List;
 
 public abstract class ForwardCheck extends CSPAlgorithm {
 
-    public ForwardCheck(int n) {
-        super(n);
+    public ForwardCheck(int n, Options options) {
+        super(n, options);
     }
 
-    public int run() {
+    public Result run() {
+        long start = System.currentTimeMillis();
         forwardCheck(getInitialSolution(), getAllFullDomains());
-        return foundSolutions.size();
+        if (options.countExecutionTime) {
+            executionTimeMillis = System.currentTimeMillis() - start;
+        }
+        return getResult();
     }
 
     protected abstract List<List<Integer>> getUpdatedDomains(List<Integer> subSolution, List<List<Integer>> domains);
 
     private void forwardCheck(List<Integer> subSolution, List<List<Integer>> domains) {
-        logProgress(subSolution);
+        if (options.logProgress) {
+            logProgress(subSolution);
+        }
+        if (options.countRecursiveCalls) recursiveCallsCount++;
+        if (options.stopAtFirstSolution && !foundSolutions.isEmpty()) {
+            return;
+        }
 
         if (isFullSolution(subSolution)) {
             saveSolution(subSolution);
@@ -25,6 +35,8 @@ public abstract class ForwardCheck extends CSPAlgorithm {
             List<List<Integer>> updatedDomains = getUpdatedDomains(subSolution, domains);
             if (!containsEmptyDomain(updatedDomains)) {
                 triggerForwardCheckForNextDomainValues(subSolution, updatedDomains);
+            } else if (options.countReturns) {
+                returnsCount++;
             }
         }
 
