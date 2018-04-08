@@ -51,7 +51,7 @@ public abstract class ForwardCheck extends CSPAlgorithm {
     private void triggerForwardCheckForNextDomainValues(List<Integer> subSolution, List<List<Integer>> updatedDomains) {
         List<Integer> domainValues = updatedDomains.get(0);
         domainValues.forEach(domainValue -> {
-            List<Integer> nextSolution = getNextSolution(subSolution, domainValue);
+            List<Integer> nextSolution = getNextSolution(subSolution, domainValue, -1);
             forwardCheck(nextSolution, updatedDomains);
         });
     }

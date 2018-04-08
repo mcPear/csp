@@ -41,7 +41,7 @@ public class QueenForwardCheck extends ForwardCheck {
     }
 
     @Override
-    protected List<Integer> getNextSolution(List<Integer> previousSolution, Integer nextValue) {
+    protected List<Integer> getNextSolution(List<Integer> previousSolution, Integer nextValue, int index) {
         List<Integer> nextSolution = new ArrayList<>(previousSolution);
         nextSolution.add(nextValue);
         return nextSolution;

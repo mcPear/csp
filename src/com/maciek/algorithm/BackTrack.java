@@ -42,7 +42,7 @@ public abstract class BackTrack extends CSPAlgorithm {
 
     private void triggerBackTracksForAllValues(List<Integer> subSolution) {
         allKnownValues.forEach(value -> {
-            List<Integer> nextSolution = getNextSolution(subSolution, value);
+            List<Integer> nextSolution = getNextSolution(subSolution, value, -1);
             backTrack(nextSolution);
         });
     }
