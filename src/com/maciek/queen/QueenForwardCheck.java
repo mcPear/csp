@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+//count domains of unassigned variables, remember only these domains
 public class QueenForwardCheck extends ForwardCheck {
 
     public QueenForwardCheck(int n, Options options) {

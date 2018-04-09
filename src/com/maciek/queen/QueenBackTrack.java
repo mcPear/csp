@@ -5,6 +5,7 @@ import com.maciek.algorithm.Options;
 
 import java.util.*;
 
+//count domains of unassigned variables, remember only these domains
 public class QueenBackTrack extends BackTrack {
 
     public QueenBackTrack(int n, Options options) {

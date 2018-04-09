@@ -6,7 +6,7 @@ import com.maciek.algorithm.Result;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
+//count all domains
 public class LatinForwardCheck extends CSPAlgorithm {
 
     public LatinForwardCheck(int n, Options options) {

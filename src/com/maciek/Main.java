@@ -1,17 +1,22 @@
 package com.maciek;
 
 import com.maciek.algorithm.Options;
+import com.maciek.latin.LatinBackTrack;
 import com.maciek.latin.LatinForwardCheck;
+import com.maciek.queen.QueenBackTrack;
+import com.maciek.queen.QueenForwardCheck;
 
 public class Main {
 
-    private static Options options = new Options(false, true, true,
-            true, true, true, false);
+    private static Options options = new Options(true, true, true,
+            false, true, true, false);
 
     public static void main(String[] args) {
         //System.out.println(new LatinBackTrack(6).run());
-        System.out.println(new LatinForwardCheck(28, options).run());
+        //System.out.println(new LatinForwardCheck(8, options).run());
         //System.out.println(new LatinBackTrack(5, options).run());
+        //System.out.println(new QueenBackTrack(14, options).run());
+        //System.out.println(new QueenForwardCheck(15, options).run());
         //compareTimes(13);
     }
 

@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+//count domains of unassigned variables, but remember all
 public class LatinBackTrack extends BackTrack {
 
     public LatinBackTrack(int n, Options options) {// n max=5
