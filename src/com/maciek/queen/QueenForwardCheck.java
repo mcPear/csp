@@ -47,8 +47,8 @@ public class QueenForwardCheck extends CSPAlgorithm {
     private void triggerForwardCheckForNextDomainValues(List<Integer> subSolution, List<List<Integer>> updatedDomains) {
         int nextVariableDomainIndex = getNextVariableDomainIndex(subSolution, updatedDomains);
         List<Integer> domainValues = updatedDomains.get(nextVariableDomainIndex);
-        if (options.useVariableValueHeuristic) {
-            sortDomainValues(domainValues, subSolution);
+        if (options.useRandomVariableValueHeuristic) {
+            Collections.shuffle(domainValues);
         }
         domainValues.forEach(domainValue -> {
             List<Integer> nextSolution = getNextSolution(subSolution, domainValue, nextVariableDomainIndex);
@@ -56,9 +56,14 @@ public class QueenForwardCheck extends CSPAlgorithm {
         });
     }
 
-    private void sortDomainValues(List<Integer> values, List<Integer> subSolution) {
+    private void sortDescendingFrequentDomainValues(List<Integer> values, List<Integer> subSolution) {
         Comparator descendingFrequencyComparator = Collections.reverseOrder(Comparator.comparing(val -> Collections.frequency(subSolution, val)));
         values.sort(descendingFrequencyComparator);
+    }
+
+    private void sortAscendingFrequentDomainValues(List<Integer> values, List<Integer> subSolution) {
+        Comparator ascendingFrequencyComparator = Comparator.comparing(val -> Collections.frequency(subSolution, val));
+        values.sort(ascendingFrequencyComparator);
     }
 
     private int getNextVariableDomainIndex(List<Integer> subSolution, List<List<Integer>> updatedDomains) {
@@ -72,6 +77,16 @@ public class QueenForwardCheck extends CSPAlgorithm {
                 }
             }
             return minimumDomainIndex;
+        } else if (options.useMaximumDomainHeuristic) {
+            int maximumDomainIndex = -1;
+            List<Integer> maximumDomain = null;
+            for (int i = 0; i < updatedDomains.size(); i++) {
+                if (subSolution.get(i) == 0 && (maximumDomain == null || updatedDomains.get(i).size() > maximumDomain.size())) {
+                    maximumDomainIndex = i;
+                    maximumDomain = updatedDomains.get(i);
+                }
+            }
+            return maximumDomainIndex;
         } else {
             return subSolution.indexOf(0);
         }

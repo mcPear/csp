@@ -1,6 +1,7 @@
 package com.maciek;
 
 import com.maciek.algorithm.Options;
+import com.maciek.algorithm.Result;
 import com.maciek.latin.LatinBackTrack;
 import com.maciek.latin.LatinForwardCheck;
 import com.maciek.queen.QueenBackTrack;
@@ -8,37 +9,43 @@ import com.maciek.queen.QueenForwardCheck;
 
 public class Main {
 
-    private static Options options = new Options(true, true, true,
-            false, true, true, false);
+    private static Options options = new Options(false, true, true,
+            true, true,
+            false, false,
+            false, false);
 
     public static void main(String[] args) {
         //System.out.println(new LatinBackTrack(6).run());
         //System.out.println(new LatinForwardCheck(8, options).run());
         //System.out.println(new LatinBackTrack(5, options).run());
         //System.out.println(new QueenBackTrack(14, options).run());
-        //System.out.println(new QueenForwardCheck(15, options).run());
-        //compareTimes(13);
+        //System.out.println(new QueenForwardCheck(30, options).run());
+        compareTimes(30000);
     }
 
     private static long now() {
         return System.currentTimeMillis();
     }
 
-    private static void compareTimes(int n) { //n=14 | remove logs
-//        for (int i = 1; i <= n; i++) {
-//            System.out.print(i + ",");
+    private static void compareTimes(int n) {
+//        System.out.println("0,0,0");
+        for (int i = 1; i <= n; i++) {
+            System.out.print(i + ",");
+
+            Result resultFC = new QueenForwardCheck(i, options).run();
+            System.out.print(resultFC.recursiveCallsCount+","+resultFC.returnsCount+","+resultFC.executionTimeMillis);
+
+//            System.out.print(",");
 //
-//            long start = now();
-//            int resultBT = new QueenBackTrack(i, options).run();
-//            System.out.print(now() - start);
+//            Result resultFC2 = new LatinForwardCheck(i, options2).run();
+//            System.out.print(resultFC2.recursiveCallsCount+","+resultFC2.returnsCount+","+resultFC2.executionTimeMillis);
 //
 //            System.out.print(",");
 //
-//            start = now();
-//            int resultFC = new QueenForwardCheck(i, options).run();
-//            System.out.print(now() - start + " | " + resultBT + "," + resultFC);
-//            System.out.println("");
-//        }
+//            Result resultFC3 = new LatinForwardCheck(i, options3).run();
+//            System.out.print(resultFC3.recursiveCallsCount+","+resultFC3.returnsCount+","+resultFC3.executionTimeMillis);
+            System.out.println("");
+        }
     }
 
 }
