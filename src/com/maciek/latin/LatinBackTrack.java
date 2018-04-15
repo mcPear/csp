@@ -3,13 +3,13 @@ package com.maciek.latin;
 import com.maciek.algorithm.BackTrack;
 import com.maciek.algorithm.Options;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 //count domains of unassigned variables, but remember all
 public class LatinBackTrack extends BackTrack {
+
+    private List<Integer> subsolutionColumn = new ArrayList<>();
+    private Set<Integer> findDuplicatesHelper = new HashSet<>();
 
     public LatinBackTrack(int n, Options options) {// n max=5
         super(n, options);
@@ -29,12 +29,12 @@ public class LatinBackTrack extends BackTrack {
                 isValid = false;
             }
 
-            List<Integer> column = new ArrayList<>();
+            subsolutionColumn.clear();
             for (int j = 0; j < n; j++) {
-                column.add(subSolution.get(i + n * j));
+                subsolutionColumn.add(subSolution.get(i + n * j));
             }
 
-            if (!isValidValuesList(column)) {
+            if (!isValidValuesList(subsolutionColumn)) {
                 isValid = false;
             }
         }
@@ -43,9 +43,13 @@ public class LatinBackTrack extends BackTrack {
     }
 
     private boolean isValidValuesList(List<Integer> list) {
-        List<Integer> listWithoutZeros = new ArrayList<>(list);
-        listWithoutZeros.removeIf(val -> val == 0);
-        return new HashSet<>(listWithoutZeros).size() == listWithoutZeros.size();
+        return !hasDuplicateIgnoringZeros(list);
+    }
+
+    private boolean hasDuplicateIgnoringZeros(Iterable<Integer> all) {
+        findDuplicatesHelper.clear();
+        for (Integer each: all) if (each!=0 && !findDuplicatesHelper.add(each)) return true;
+        return false;
     }
 
     @Override
@@ -54,8 +58,7 @@ public class LatinBackTrack extends BackTrack {
     }
 
     private boolean equalsInitialSolution(List<Integer> solution) {
-        HashSet<Integer> values = new HashSet<>(solution);
-        return values.size() == 1 && values.contains(0);
+        return isAllZeros(solution);
     }
 
     @Override

@@ -48,4 +48,10 @@ public abstract class CSPAlgorithm {
         return new Result(n, foundSolutions, foundSolutions.size(), recursiveCallsCount, returnsCount, executionTimeMillis, this.getClass().getSimpleName());
     }
 
+    protected boolean isAllZeros(Iterable<Integer> array) {
+        for (Integer value : array)
+            if (value != 0) return false;
+        return true;
+    }
+
 }

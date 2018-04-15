@@ -30,7 +30,7 @@ public class Result {
                 ", recursiveCalls= " + recursiveCallsCount +
                 ", returns= " + returnsCount +
                 ", time= " + executionTimeMillis +
-                ", algorithm= " + algorithm +
+                //", algorithm= " + algorithm +
                 '}';
     }
 }

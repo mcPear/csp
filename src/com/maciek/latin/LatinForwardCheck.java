@@ -113,8 +113,7 @@ public class LatinForwardCheck extends CSPAlgorithm {
     }
 
     private boolean equalsInitialSolution(List<Integer> solution) {
-        HashSet<Integer> values = new HashSet<>(solution);
-        return values.size() == 1 && values.contains(0);
+        return isAllZeros(solution);
     }
 
     @Override

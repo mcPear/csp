@@ -10,14 +10,14 @@ import com.maciek.queen.QueenForwardCheck;
 public class Main {
 
     private static Options options = new Options(false, true, true,
-            true, true,
+            false, true,
             false, false,
             false, false);
 
     public static void main(String[] args) {
         //System.out.println(new LatinBackTrack(6).run());
         //System.out.println(new LatinForwardCheck(8, options).run());
-        //System.out.println(new LatinBackTrack(5, options).run());
+        //System.out.println(new LatinBackTrack(50, options).run());
         //System.out.println(new QueenBackTrack(14, options).run());
         //System.out.println(new QueenForwardCheck(30, options).run());
         compareTimes(30000);
@@ -30,10 +30,11 @@ public class Main {
     private static void compareTimes(int n) {
 //        System.out.println("0,0,0");
         for (int i = 1; i <= n; i++) {
-            System.out.print(i + ",");
+//            System.out.print(i + ",");
 
-            Result resultFC = new QueenForwardCheck(i, options).run();
-            System.out.print(resultFC.recursiveCallsCount+","+resultFC.returnsCount+","+resultFC.executionTimeMillis);
+            Result result = new LatinForwardCheck(i, options).run();
+//            System.out.print(result.recursiveCallsCount+","+result.returnsCount+","+result.executionTimeMillis);
+            System.out.print(result.toString());
 
 //            System.out.print(",");
 //
