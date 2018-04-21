@@ -1,19 +1,21 @@
 package com.maciek.latin;
 
-import com.maciek.algorithm.CSPAlgorithm;
+import com.maciek.algorithm.ForwardCheck;
 import com.maciek.algorithm.Options;
-import com.maciek.algorithm.Result;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 //count all domains
-public class LatinForwardCheck extends CSPAlgorithm {
+public class LatinForwardCheck extends ForwardCheck {
 
     public LatinForwardCheck(int n, Options options) {
         super(n, options);
     }
 
-    List<List<Integer>> getUpdatedDomains(List<Integer> subSolution, List<List<Integer>> domains, int index) {
+    @Override
+    protected List<List<Integer>> getUpdatedDomains(List<Integer> subSolution, List<List<Integer>> domains, int index) {
         if (equalsInitialSolution(subSolution)) {
             return domains;
         }
@@ -39,83 +41,10 @@ public class LatinForwardCheck extends CSPAlgorithm {
         return updatedDomains;
     }
 
-    private void forwardCheck(List<Integer> subSolution, List<List<Integer>> domains, int index) {
-        if (options.logProgress) {
-            logProgress(subSolution);
-        }
-        if (options.countRecursiveCalls) recursiveCallsCount++;
-        if (options.stopAtFirstSolution && !foundSolutions.isEmpty()) {
-            return;
-        }
-
-        if (isFullSolution(subSolution)) {
-            saveSolution(subSolution);
-        } else {
-            List<List<Integer>> updatedDomains = getUpdatedDomains(subSolution, domains, index);
-            if (!containsEmptyDomainOnEmptyVariable(subSolution, updatedDomains)) {
-                triggerForwardCheckForNextDomainValues(subSolution, updatedDomains);
-            } else if (options.countReturns) {
-                returnsCount++;
-            }
-        }
-
-    }
-
-    private void triggerForwardCheckForNextDomainValues(List<Integer> subSolution, List<List<Integer>> updatedDomains) {
-        int nextVariableDomainIndex = getNextVariableDomainIndex(subSolution, updatedDomains);
-        List<Integer> domainValues = updatedDomains.get(nextVariableDomainIndex);
-        if (options.useRandomVariableValueHeuristic) {
-            Collections.shuffle(domainValues);
-        }
-        domainValues.forEach(domainValue -> {
-            List<Integer> nextSolution = getNextSolution(subSolution, domainValue, nextVariableDomainIndex);
-            forwardCheck(nextSolution, updatedDomains, nextVariableDomainIndex);
-        });
-    }
-
-    private void sortDescendingFrequentDomainValues(List<Integer> values, List<Integer> subSolution) {
-        Comparator descendingFrequencyComparator = Collections.reverseOrder(Comparator.comparing(val -> Collections.frequency(subSolution, val)));
-        values.sort(descendingFrequencyComparator);
-    }
-
-    private void sortAscendingFrequentDomainValues(List<Integer> values, List<Integer> subSolution) {
-        Comparator ascendingFrequencyComparator = Comparator.comparing(val -> Collections.frequency(subSolution, val));
-        values.sort(ascendingFrequencyComparator);
-    }
-
-    private int getNextVariableDomainIndex(List<Integer> subSolution, List<List<Integer>> updatedDomains) {
-        if (options.useMinimumDomainHeuristic) {
-            int minimumDomainIndex = -1;
-            List<Integer> minimumDomain = null;
-            for (int i = 0; i < updatedDomains.size(); i++) {
-                if (subSolution.get(i) == 0 && (minimumDomain == null || updatedDomains.get(i).size() < minimumDomain.size())) {
-                    minimumDomainIndex = i;
-                    minimumDomain = updatedDomains.get(i);
-                }
-            }
-            return minimumDomainIndex;
-        } else if (options.useMaximumDomainHeuristic) {
-            int maximumDomainIndex = -1;
-            List<Integer> maximumDomain = null;
-            for (int i = 0; i < updatedDomains.size(); i++) {
-                if (subSolution.get(i) == 0 && (maximumDomain == null || updatedDomains.get(i).size() > maximumDomain.size())) {
-                    maximumDomainIndex = i;
-                    maximumDomain = updatedDomains.get(i);
-                }
-            }
-            return maximumDomainIndex;
-        } else {
-            return subSolution.indexOf(0);
-        }
-    }
-
-    private boolean equalsInitialSolution(List<Integer> solution) {
-        return isAllZeros(solution);
-    }
 
     @Override
-    protected boolean isFullSolution(List<Integer> solution) {
-        return !solution.contains(0);
+    protected boolean equalsInitialSolution(List<Integer> solution) {
+        return isAllZeros(solution);
     }
 
     @Override
@@ -123,14 +52,8 @@ public class LatinForwardCheck extends CSPAlgorithm {
         return Collections.nCopies(n * n, 0);
     }
 
-    protected List<Integer> getNextSolution(List<Integer> previousSolution, Integer nextValue, int index) {
-        //int indexOfFirstZero = previousSolution.indexOf(0);
-        List<Integer> nextSolution = new ArrayList<>(previousSolution);
-        nextSolution.set(index, nextValue);
-        return nextSolution;
-    }
-
-    List<List<Integer>> getAllFullDomains() {
+    @Override
+    protected List<List<Integer>> getAllFullDomains() {
         List<List<Integer>> domains = new ArrayList<>();
         for (int i = 1; i <= n * n; i++) {
             domains.add(allKnownValues);
@@ -138,28 +61,5 @@ public class LatinForwardCheck extends CSPAlgorithm {
         return domains;
     }
 
-    public Result run() {
-        long start = System.currentTimeMillis();
-        forwardCheck(getInitialSolution(), getAllFullDomains(), -1);
-        if (options.countExecutionTime) {
-            executionTimeMillis = System.currentTimeMillis() - start;
-        }
-        return getResult();
-    }
-
-    List<List<Integer>> copyList2D(List<List<Integer>> list2D) {
-        List<List<Integer>> result = new ArrayList<>();
-        list2D.forEach(list -> result.add(new ArrayList<>(list)));
-        return result;
-    }
-
-    private boolean containsEmptyDomainOnEmptyVariable(List<Integer> subSolution, List<List<Integer>> domains) {
-        for (int i = 0; i < domains.size(); i++) {
-            if (subSolution.get(i) == 0 && domains.get(i).size() == 0) {
-                return true;
-            }
-        }
-        return false;
-    }
 
 }
