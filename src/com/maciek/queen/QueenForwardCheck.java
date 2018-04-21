@@ -49,11 +49,32 @@ public class QueenForwardCheck extends CSPAlgorithm {
         List<Integer> domainValues = updatedDomains.get(nextVariableDomainIndex);
         if (options.useRandomVariableValueHeuristic) {
             Collections.shuffle(domainValues);
+        } else if (options.useMedianToEdgesValueHeuristic) {
+            orderFromMedianToEdge(domainValues);
+        } else if (options.useEdgesToMedianValueHeuristic) {
+            orderFromMedianToEdge(domainValues);
+            Collections.reverse(domainValues);
         }
         domainValues.forEach(domainValue -> {
             List<Integer> nextSolution = getNextSolution(subSolution, domainValue, nextVariableDomainIndex);
             forwardCheck(nextSolution, updatedDomains, nextVariableDomainIndex);
         });
+    }
+
+    public static void orderFromMedianToEdge(List<Integer> domain) {
+        for (int i = 0; i < domain.size() - 1; i++) {
+            Collections.swap(domain, i, getMedianIndexFrom(domain, i + 1));
+        }
+    }
+
+    private static int getMedianIndexFrom(List<Integer> domain, int startIndex) {
+        if (domain.size() - 1 == startIndex) {
+            return startIndex;
+        }
+        List<Integer> sortedSubDomain = new ArrayList<>(domain.subList(startIndex, domain.size()));
+        Collections.sort(sortedSubDomain);
+        Integer medianFrom = sortedSubDomain.get((sortedSubDomain.size() - 1) / 2);
+        return domain.indexOf(medianFrom);
     }
 
     private void sortDescendingFrequentDomainValues(List<Integer> values, List<Integer> subSolution) {
@@ -130,33 +151,10 @@ public class QueenForwardCheck extends CSPAlgorithm {
         for (int i = theLastValueIndex - 1; i >= 0; i--) {
             List<Integer> domain = updatedDomains.get(i);
             domain.remove(theLastValue);
-            domain.remove((Integer) (theLastValue + (i - (previousIndex) + 1)));
-            domain.remove((Integer) (theLastValue - (i - (previousIndex) + 1)));
+            domain.remove((Integer) (theLastValue + (previousIndex - i + 1)));
+            domain.remove((Integer) (theLastValue - (previousIndex - i + 1)));
         }
         return updatedDomains;
-
-        /*
-                int theLastValueIndex = index;
-        Integer theLastValue = subSolution.get(theLastValueIndex);
-        List<List<Integer>> updatedDomains = copyList2D(domains);
-
-        //update cell
-        updatedDomains.get(theLastValueIndex).clear();
-
-        //update row
-        int firstIndexOfRow = theLastValueIndex - theLastValueIndex % n;
-        int firstIndexOfNextRow = n - theLastValueIndex % n + theLastValueIndex;
-        List<List<Integer>> domainsRow = updatedDomains.subList(firstIndexOfRow, firstIndexOfNextRow);
-        domainsRow.forEach(domain -> domain.remove(theLastValue));
-
-        //update column
-        for (int i = 0; i < n; i++) {
-            int columnVariableIndex = theLastValueIndex % n + i * n;
-            updatedDomains.get(columnVariableIndex).remove(theLastValue);
-        }
-
-        return updatedDomains;
-         */
     }
 
     @Override

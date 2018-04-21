@@ -64,11 +64,8 @@ public class LatinForwardCheck extends CSPAlgorithm {
     private void triggerForwardCheckForNextDomainValues(List<Integer> subSolution, List<List<Integer>> updatedDomains) {
         int nextVariableDomainIndex = getNextVariableDomainIndex(subSolution, updatedDomains);
         List<Integer> domainValues = updatedDomains.get(nextVariableDomainIndex);
-        if (options.useFrequentVariableValueHeuristic) {
-            sortDescendingFrequentDomainValues(domainValues, subSolution);
-        } else if (options.useRandomVariableValueHeuristic) {
+        if (options.useRandomVariableValueHeuristic) {
             Collections.shuffle(domainValues);
-            //sortAscendingFrequentDomainValues(domainValues, subSolution);
         }
         domainValues.forEach(domainValue -> {
             List<Integer> nextSolution = getNextSolution(subSolution, domainValue, nextVariableDomainIndex);

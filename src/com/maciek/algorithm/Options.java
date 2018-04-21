@@ -9,12 +9,14 @@ public class Options {
     public final boolean countExecutionTime;
     public final boolean useMinimumDomainHeuristic;
     public final boolean useMaximumDomainHeuristic;
-    public final boolean useFrequentVariableValueHeuristic;
     public final boolean useRandomVariableValueHeuristic;
+    public final boolean useMedianToEdgesValueHeuristic;
+    public final boolean useEdgesToMedianValueHeuristic;
 
     public Options(boolean logProgress, boolean countRecursiveCalls, boolean countReturns, boolean stopAtFirstSolution,
                    boolean countExecutionTime, boolean useMinimumDomainHeuristic, boolean useMaximumDomainHeuristic,
-                   boolean useFrequentVariableValueHeuristic, boolean useRandomVariableValueHeuristic) {
+                   boolean useRandomVariableValueHeuristic, boolean useMedianToEdgesValueHeuristic,
+                   boolean useEdgesToMedianValueHeuristic) {
         this.logProgress = logProgress;
         this.countRecursiveCalls = countRecursiveCalls;
         this.countReturns = countReturns;
@@ -22,7 +24,8 @@ public class Options {
         this.countExecutionTime = countExecutionTime;
         this.useMinimumDomainHeuristic = useMinimumDomainHeuristic;
         this.useMaximumDomainHeuristic = useMaximumDomainHeuristic;
-        this.useFrequentVariableValueHeuristic = useFrequentVariableValueHeuristic;
         this.useRandomVariableValueHeuristic = useRandomVariableValueHeuristic;
+        this.useMedianToEdgesValueHeuristic = useMedianToEdgesValueHeuristic;
+        this.useEdgesToMedianValueHeuristic = useEdgesToMedianValueHeuristic;
     }
 }
