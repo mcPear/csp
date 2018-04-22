@@ -2,9 +2,8 @@ package com.maciek;
 
 import com.maciek.algorithm.Options;
 import com.maciek.algorithm.Result;
-import com.maciek.latin.LatinForwardCheck;
-import com.maciek.queen.QueenBackTrack;
-import com.maciek.queen.QueenForwardCheck;
+import com.maciek.nonHeuristic.LatinFCNonHeuristic;
+import com.maciek.nonHeuristic.QueenFCNonHeuristic;
 
 import java.util.*;
 
@@ -53,7 +52,7 @@ public class Main {
         for (int i = 1; i <= n; i++) {
             System.out.print(i + ",");
 
-            Result result = new QueenBackTrack(i, options).run();
+            Result result = new QueenFCNonHeuristic(i, options).run();
             System.out.print(result.recursiveCallsCount + "," + result.returnsCount + "," + result.executionTimeMillis+","+result.foundSolutionsCount);
 //            result.foundSolutions.get(0).forEach(s -> System.out.print(s + ","));
 
